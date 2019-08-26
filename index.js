@@ -7,7 +7,7 @@ const {
 
 const imagesPath = "./images";
 
-const { cascade } = yargs
+const { cascade, stress } = yargs
     .option('parallel', {
         alias: 'p',
         describe: 'run the script in parallel, this is default behavior'
@@ -26,7 +26,7 @@ const { cascade } = yargs
 async function processArrayWith(resultsArray, processFunction) {
     for (const result in resultsArray) {
         const [width, height] = resultsArray[result].replace(/\.jpg/gi, '').split('x');
-        await processFunction(`${imagesPath}/${resultsArray[result]}`, Number(width), Number(height))
+        await processFunction(`${imagesPath}/${resultsArray[result]}`, Number(width), Number(height), stress)
     }
 }
 
@@ -64,7 +64,7 @@ fs.readdir(imagesPath, async (err, results) => {
         // Load images Sharp
         const sharpArrayOfPromises = ordered.map(async (result) => {
             const [width, height] = result.replace(/\.jpg/gi, '').split('x');
-            return loadWithSharp(`${imagesPath}/${result}`, Number(width), Number(height));
+            return loadWithSharp(`${imagesPath}/${result}`, Number(width), Number(height), stress);
         })
 
         const sharpResults = await Promise.all(sharpArrayOfPromises);
@@ -74,7 +74,7 @@ fs.readdir(imagesPath, async (err, results) => {
         // Load images Canvas
         const canvasArrayOfPromises = ordered.map(async (result) => {
             const [width, height] = result.replace(/\.jpg/gi, '').split('x');
-            return loadWithCanvas(`${imagesPath}/${result}`, Number(width), Number(height));
+            return loadWithCanvas(`${imagesPath}/${result}`, Number(width), Number(height), stress);
         });
         
         const canvasResults = await Promise.all(canvasArrayOfPromises);
