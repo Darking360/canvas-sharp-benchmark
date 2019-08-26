@@ -14,7 +14,7 @@ yarn install
 
 ## Running the test
 
-As mentioned before you can run the tests in parallel or in cascade, so for running in parallel ou can run:
+As mentioned before you can run the tests in parallel or in cascade, so for running in parallel you can run:
 
 ```
 node index.js
